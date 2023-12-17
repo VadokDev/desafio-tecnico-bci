@@ -3,7 +3,7 @@ package dev.vadok.desafios.desafiobci.core.gateways.h2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dev.vadok.desafios.desafiobci.core.entities.IUser;
-import dev.vadok.desafios.desafiobci.core.mappers.CreateUserJpaMapper;
+import dev.vadok.desafios.desafiobci.core.mappers.UserJpaMapper;
 import dev.vadok.desafios.desafiobci.core.repositories.ICreateUserRepository;
 import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.boundaries.ICreateUserGateway;
 
@@ -14,19 +14,19 @@ public class CreateUserH2Gateway implements ICreateUserGateway {
   public CreateUserH2Gateway() {}
   
   @Override
-  public CreateUserJpaMapper save(IUser user) {
-    CreateUserJpaMapper createUserJpaMapper = new CreateUserJpaMapper();
+  public UserJpaMapper save(IUser user) {
+    UserJpaMapper createUserJpaMapper = new UserJpaMapper();
     createUserJpaMapper.setEmail(user.getEmail());
     createUserJpaMapper.setName(user.getName());
     createUserJpaMapper.setPassword(user.getPassword());
     createUserJpaMapper.setLast_login(user.getLastLogin());
     createUserJpaMapper.setToken(user.getToken());
-    CreateUserJpaMapper newUser = this._repository.save(createUserJpaMapper);
+    UserJpaMapper newUser = this._repository.save(createUserJpaMapper);
     return newUser;
   }
   
   @Override
   public boolean existsByEmail(String email) {
-    return false;
+    return _repository.existsByEmail(email);
   }
 }
