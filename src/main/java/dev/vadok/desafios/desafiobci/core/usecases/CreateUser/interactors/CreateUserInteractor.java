@@ -1,10 +1,5 @@
 package dev.vadok.desafios.desafiobci.core.usecases.CreateUser.interactors;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -18,22 +13,22 @@ import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.exception.CreateUs
 import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.models.CreateUserRequestModel;
 import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.models.CreateUserResponseModel;
 import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.presenters.ICreateUserPresenter;
+import dev.vadok.desafios.desafiobci.core.utils.DateUtils;
 
 public class CreateUserInteractor implements ICreateUserBoundary {
-  @Autowired
-  private Environment env;
-
   private IUserFactory factory;
   private ICreateUserGateway gateway;
   private ICreateUserPresenter presenter;
   private IJWTService jwtService;
+  private Environment env;
 
   public CreateUserInteractor(IUserFactory factory, ICreateUserGateway createUserGateway,
-      ICreateUserPresenter createUserPresenter, IJWTService jwtService) {
+      ICreateUserPresenter createUserPresenter, IJWTService jwtService, Environment env) {
     this.factory = factory;
     this.gateway = createUserGateway;
     this.presenter = createUserPresenter;
     this.jwtService = jwtService;
+    this.env = env;
   }
 
   @Override
@@ -62,18 +57,13 @@ public class CreateUserInteractor implements ICreateUserBoundary {
 
     UserJpaMapper newUser = this.gateway.save(user);
 
-    String created = toIsoLocalDate(newUser.getCreated());
-    String modified = toIsoLocalDate(newUser.getModified());
-    String lastLogin = toIsoLocalDate(user.getLastLogin());
+    String created = DateUtils.toIsoLocalDate(newUser.getCreated());
+    String modified = DateUtils.toIsoLocalDate(newUser.getModified());
+    String lastLogin = DateUtils.toIsoLocalDate(user.getLastLogin());
 
     CreateUserResponseModel responseModel = new CreateUserResponseModel(newUser.getId(), user.getName(),
         user.getEmail(), created, modified, lastLogin, user.getIsActive(), token, user.getPhones());
 
     return presenter.success(responseModel);
-  }
-
-  private String toIsoLocalDate(Timestamp timestamp) {
-    return timestamp
-        .toLocalDateTime().format(DateTimeFormatter.ISO_DATE_TIME);
   }
 }

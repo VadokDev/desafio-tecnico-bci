@@ -1,7 +1,7 @@
 package dev.vadok.desafios.desafiobci.core.mappers;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -38,7 +38,7 @@ public class UserJpaMapper {
   private Timestamp modified;
   
   @OneToMany(mappedBy = "user")
-  private List<PhoneJpaMapper> phones;
+  private ArrayList<PhoneJpaMapper> phones;
 
   private Timestamp last_login;
 }

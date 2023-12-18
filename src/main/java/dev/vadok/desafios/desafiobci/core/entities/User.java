@@ -1,7 +1,7 @@
 package dev.vadok.desafios.desafiobci.core.entities;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,9 +12,9 @@ public class User implements IUser {
   private Timestamp lastLogin;
   private boolean isActive;
   private String token;
-  private List<Phone> phones;
+  private ArrayList<Phone> phones;
 
-  public User(String name, String email, String password, Timestamp lastLogin, boolean isActive, List<Phone> phones) {
+  public User(String name, String email, String password, Timestamp lastLogin, boolean isActive, ArrayList<Phone> phones) {
     this.name = name;
     this.email = email;
     this.password = password;
@@ -51,7 +51,7 @@ public class User implements IUser {
     return token;
   }
 
-  public List<Phone> getPhones() {
+  public ArrayList<Phone> getPhones() {
     return phones;
   }
 

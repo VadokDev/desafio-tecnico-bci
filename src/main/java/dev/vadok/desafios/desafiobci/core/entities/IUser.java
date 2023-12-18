@@ -1,7 +1,7 @@
 package dev.vadok.desafios.desafiobci.core.entities;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.ArrayList;
 
 public interface IUser {
   String getName();
@@ -10,7 +10,7 @@ public interface IUser {
   String getToken();
   Timestamp getLastLogin();
   boolean getIsActive();
-  List<Phone> getPhones();
+  ArrayList<Phone> getPhones();
   void setToken(String token);
   boolean emailIsValid();
   boolean passwordIsValid(String regExp);

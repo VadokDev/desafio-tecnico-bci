@@ -1,7 +1,9 @@
 package dev.vadok.desafios.desafiobci.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import dev.vadok.desafios.desafiobci.core.entities.IUserFactory;
 import dev.vadok.desafios.desafiobci.core.entities.UserFactory;
@@ -16,6 +18,9 @@ import dev.vadok.desafios.desafiobci.core.usecases.CreateUser.presenters.ICreate
 
 @Configuration
 public class CreateUserConfiguration {
+  @Autowired
+  private Environment env;
+
   @Bean
   public ICreateUserPresenter createUserPresenter() {
     return new CreateUserPresenter();
@@ -38,6 +43,6 @@ public class CreateUserConfiguration {
 
   @Bean
   public ICreateUserBoundary createUserBoundary(ICreateUserPresenter createUserPresenter, ICreateUserGateway createUserGateway, IUserFactory createUserFactory, IJWTService jwtService) {
-    return new CreateUserInteractor(createUserFactory, createUserGateway, createUserPresenter, jwtService);
+    return new CreateUserInteractor(createUserFactory, createUserGateway, createUserPresenter, jwtService, env);
   }
 }
